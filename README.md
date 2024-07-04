@@ -9,7 +9,7 @@ directory set at `/var/hostdata`
 
 # Help
 
-see <src/HELP.md>
+see [src/HELP.md](src/HELP.md)
 
 ## Language choice
 
