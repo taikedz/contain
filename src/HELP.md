@@ -14,8 +14,8 @@ Every container is run with the current working directory bind-mounted to `/host
 Very simple. Create an image by using the `build` command, or using the `run` command and comitting upon exiting the container.
 
 ```sh
-# Create a new image using a Dockerfile, implicitly using the Dockerfile's parent as context (overridable)
-contain build <name> <Dockerfile-path>
+# Create a new image using a Dockerfile, implicitly using the Dockerfile's parent as context (overridable via alt-context)
+contain build <name> <Dockerfile-path> [ <alt-context> ]
 
 # Start a new container
 contain run <image>
