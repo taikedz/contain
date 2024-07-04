@@ -4,8 +4,7 @@ Tool for making containers easier to use instinctively on the command line.
 
 This is typically to support my usage of containers as an experimentation utility.
 
-All containers end up having `$PWD` mounted into `/var/hostdata` , and the default working
-directory set at `/var/hostdata`
+All containers end up having `$PWD` mounted into `/hostdata`
 
 # Help
 
