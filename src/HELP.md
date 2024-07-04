@@ -2,33 +2,23 @@
 
 Helper for managing local experimentation containers.
 
+Run a container from any image with `run`. When you exit the container you will be prompted to commit it as a new image. This is optional,
+but helps retain improvements from during your session.
+
+The `build` command allows you to specify a particular Dockerfile to use, and optionally any alternative contexts to use.
+
+Every container is run with the current working directory bind-mounted to `/hostdata` . This is not retained in images that are cut from the containers.
 
 ## Commands
 
-A basic summary of all minimal requirements commands
+Very simple. Create an image by using the `build` command, or using the `run` command and comitting upon exiting the container.
 
 ```sh
-# Start a new container, and on exit, cement it as a new image
-contain image <name> from <image>
-
 # Create a new image using a Dockerfile, implicitly using the Dockerfile's parent as context (overridable)
-contain build <name> from <Dockefile-path> [-t <context-dir>]
+contain build <name> from <Dockerfile-path>
 
-# Start a new named container that persists
-contain use <name> from <image>
-
-# Start a new container ; on exit, prompt for deletion
-contain use <image>
-
-# Open an existing container
-contain reuse <name>
-
-# Start a container from an image
-# On exit, be prompted to replace the old iteration
-#   with the new container's state
-contain reimage <image>
-
-# List containers and images
-contain containers
-contaim images
+# Start a new container
+contain run <image>
+# On exit, be prompted to remove the container or commit it
 ```
+
