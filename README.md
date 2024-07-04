@@ -7,32 +7,12 @@ This is typically to support my usage of containers as an experimentation utilit
 All containers end up having `$PWD` mounted into `/var/hostdata` , and the default working
 directory set at `/var/hostdata`
 
-## Commands
+# Help
 
-A basic summary of all minimal requirements commands
+see <src/HELP.md>
 
-```sh
-# Start a new container, and on exit, cement it as a new image
-contain image <name> from <image>
+## Language choice
 
-# Create a new image using a Dockerfile, implicitly using the Dockerfile's parent as context (overridable)
-contain build <name> from <Dockefile-path> [-t <context-dir>]
+Because of the shell nature of this, it would be best written in bash/bbash
 
-# Start a new named container that persists
-contain use <name> from <image>
-
-# Start a new container ; on exit, prompt for deletion
-contain use <image>
-
-# Open an existing container
-contain reuse <name>
-
-# Start a container from an image
-# On exit, be prompted to replace the old iteration
-#   with the new container's state
-contain reimage <image>
-
-# List containers and images
-contain containers
-contaim images
-```
+However, as an experiment in using argument parsing and subprocess launching/awaiting, could be written using a new language. Currently I am thinking of either Zig or Nim.
