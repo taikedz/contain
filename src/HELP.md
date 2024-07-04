@@ -15,7 +15,7 @@ Very simple. Create an image by using the `build` command, or using the `run` co
 
 ```sh
 # Create a new image using a Dockerfile, implicitly using the Dockerfile's parent as context (overridable)
-contain build <name> from <Dockerfile-path>
+contain build <name> <Dockerfile-path>
 
 # Start a new container
 contain run <image>

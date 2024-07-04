@@ -1,4 +1,4 @@
-# Conatiner Helper
+# Container Helper
 
 Tool for making containers easier to use instinctively on the command line.
 

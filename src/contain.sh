@@ -40,9 +40,7 @@ now() {
 }
 
 
-$%function ct:build-image(newname verb dfpath ?ctxdir) {
-    [[ "$verb" = from ]] || out:fail "Expectd 'from' instead of '$verb'"
-
+$%function ct:build-image(newname dfpath ?ctxdir) {
     dfdir="$(dirname "$dfpath")"
     fname="$(basename "$dfpath")"
 
