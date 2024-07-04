@@ -630,8 +630,8 @@ Every container is run with the current working directory bind-mounted to `/host
 Very simple. Create an image by using the `build` command, or using the `run` command and comitting upon exiting the container.
 
 ```sh
-# Create a new image using a Dockerfile, implicitly using the Dockerfile's parent as context (overridable)
-contain build <name> <Dockerfile-path>
+# Create a new image using a Dockerfile, implicitly using the Dockerfile's parent as context (overridable via alt-context)
+contain build <name> <Dockerfile-path> [ <alt-context> ]
 
 # Start a new container
 contain run <image>
@@ -687,23 +687,22 @@ ct:build-image() {
 
 ct:create-container() {
     . <(args:use:local basename -- "$@") ; 
-    c_name="interim-$newname-from-$(echo $basename|sed 's/[^a-zA-Z0-9_-]/-/g')-$(now)"
-    ct:docker run -v "$PWD:/hostdata" --name "$c_name" -it "$@"
+    c_name="interim-from-$(echo $basename|sed 's/[^a-zA-Z0-9_-]/-/g')-$(now)"
+    ct:docker run -v "$PWD:/hostdata" --name "$c_name" -it "$basename" "$@"
 
     if askuser:confirm "Retain as image ? "; then
-        new_name="$(askuser:prompt "Name: ")"
+        new_name="$(askuser:ask "Name: ")"
 
         if ct:docker image inspect "$new_name" >/dev/null 2>&1; then
             dump_name="$new_name-$(now)"
             out:warn "Retagging existing '$new_name' to '$dump_name'"
-            ct:docker image tag "$dump_name"
+            ct:docker image tag "$new_name" "$dump_name"
             ct:docker image untag "$dump_name" "$new_name"
         fi
 
         ct:docker commit "$c_name" "$new_name" || out:fail "Could not commit $c_name as $new_name"
-    else
-        ct:docker rm "$c_name"
     fi
+    ct:docker rm "$c_name"
 }
 
 

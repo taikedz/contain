@@ -58,23 +58,22 @@ $%function ct:build-image(newname dfpath ?ctxdir) {
 }
 
 $%function ct:create-container(basename) {
-    c_name="interim-$newname-from-$(echo $basename|sed 's/[^a-zA-Z0-9_-]/-/g')-$(now)"
-    ct:docker run -v "$PWD:/hostdata" --name "$c_name" -it "$@"
+    c_name="interim-from-$(echo $basename|sed 's/[^a-zA-Z0-9_-]/-/g')-$(now)"
+    ct:docker run -v "$PWD:/hostdata" --name "$c_name" -it "$basename" "$@"
 
     if askuser:confirm "Retain as image ? "; then
-        new_name="$(askuser:prompt "Name: ")"
+        new_name="$(askuser:ask "Name: ")"
 
         if ct:docker image inspect "$new_name" >/dev/null 2>&1; then
             dump_name="$new_name-$(now)"
             out:warn "Retagging existing '$new_name' to '$dump_name'"
-            ct:docker image tag "$dump_name"
+            ct:docker image tag "$new_name" "$dump_name"
             ct:docker image untag "$dump_name" "$new_name"
         fi
 
         ct:docker commit "$c_name" "$new_name" || out:fail "Could not commit $c_name as $new_name"
-    else
-        ct:docker rm "$c_name"
     fi
+    ct:docker rm "$c_name"
 }
 
 
