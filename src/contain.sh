@@ -68,7 +68,7 @@ $%function ct:ask(prompt defval) {
 $%function ct:create-container(basename) {
     c_name="interim-from-$(echo $basename|sed 's/[^a-zA-Z0-9_-]/-/g')-$(now)"
     mt_pt=/root/hostdata
-    ct:docker run -v "$PWD:$mt_pt" -w "$mt_pt" --name "$c_name" -it "$basename" "$@"
+    ct:docker run -v "$PWD:$mt_pt" -w "$mt_pt" --name "$c_name" -it "$basename" "$@" || true
 
     if askuser:confirm "Retain as image ? "; then
         new_name="$(ct:ask "Name" "$basename")"
