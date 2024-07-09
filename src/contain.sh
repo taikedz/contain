@@ -41,6 +41,7 @@ now() {
 
 
 $%function ct:build-image(newname dfpath ?ctxdir) {
+    dfpath="$(readlink -f "$dfpath")"
     dfdir="$(dirname "$dfpath")"
     fname="$(basename "$dfpath")"
 
@@ -53,8 +54,8 @@ $%function ct:build-image(newname dfpath ?ctxdir) {
     (
     cd "$ctxdir"
     ct:docker build . -f "$fname" -t "$newname" "$@"
-    unlink "$ctxdir/$fname"
     )
+    unlink "$ctxdir/$fname"
 }
 
 $%function ct:create-container(basename) {

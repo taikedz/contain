@@ -669,6 +669,7 @@ now() {
 
 ct:build-image() {
     . <(args:use:local newname dfpath ?ctxdir -- "$@") ; 
+    dfpath="$(readlink -f "$dfpath")"
     dfdir="$(dirname "$dfpath")"
     fname="$(basename "$dfpath")"
 
@@ -681,8 +682,8 @@ ct:build-image() {
     (
     cd "$ctxdir"
     ct:docker build . -f "$fname" -t "$newname" "$@"
-    unlink "$ctxdir/$fname"
     )
+    unlink "$ctxdir/$fname"
 }
 
 ct:create-container() {
