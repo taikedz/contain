@@ -58,12 +58,19 @@ $%function ct:build-image(newname dfpath ?ctxdir) {
     unlink "$ctxdir/$fname"
 }
 
+$%function ct:ask(prompt defval) {
+    (
+    read -e -i "$defval" -p "$prompt : "
+    echo "$REPLY"
+    )
+}
+
 $%function ct:create-container(basename) {
     c_name="interim-from-$(echo $basename|sed 's/[^a-zA-Z0-9_-]/-/g')-$(now)"
     ct:docker run -v "$PWD:/hostdata" --name "$c_name" -it "$basename" "$@"
 
     if askuser:confirm "Retain as image ? "; then
-        new_name="$(askuser:ask "Name: ")"
+        new_name="$(ct:ask "Name" "$basename")"
 
         if ct:docker image inspect "$new_name" >/dev/null 2>&1; then
             dump_name="$new_name-$(now)"
